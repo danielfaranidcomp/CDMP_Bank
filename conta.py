@@ -6,8 +6,12 @@ def armazenar_saldo(valor_saldo):
 
 def saque_saldo(valor_saque):
     global saldo
+    if saldo < valor_saque:
+        return -1
     saldo = saldo - valor_saque
     return(saldo)
+
+
 
 def consultar_saldo(): #Vai consultar o resultado do saldo anterior que foi o do "saque_saldo"
     return(saldo)
