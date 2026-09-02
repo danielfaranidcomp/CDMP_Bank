@@ -6,11 +6,12 @@ print("SEJA BEM-VINDO AO CDMP BANK, VAMOS CADASTRAR O CLIENTE!")
 print("=-"*40)
 
 # cadastrando o cliente
+email = str(input('➥ Digite o e-mail: '))
 cpf = int(input('\n➥ Digite o cpf: '))
 nome = str(input('➥ Digite o nome: '))
 senha = str(input('➥ Digite a senha: '))
 
-cliente.criar_cliente(cpf, nome, senha)
+cliente.criar_cliente(nome, senha, email, cpf)
 
 # agora criando a conta
 
