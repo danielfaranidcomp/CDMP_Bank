@@ -1,4 +1,4 @@
-saldo = 0 #não entendi direito para que serve essa bomba
+saldo = 0 
 def armazenar_saldo(valor_saldo):
     global saldo 
     saldo = valor_saldo
@@ -11,9 +11,7 @@ def saque_saldo(valor_saque):
     saldo = saldo - valor_saque
     return(saldo)
 
-
-
-def consultar_saldo(): #Vai consultar o resultado do saldo anterior que foi o do "saque_saldo"
+def consultar_saldo():
     return(saldo)
 
 def deposito_saldo(valor_deposito):
