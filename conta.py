@@ -35,7 +35,7 @@ def cadastrarConta(saldoInicial, idCliente, idAgencia):
             else:
                 i += dadosAgencia[i+1] + 2
         if not achou:
-            return "\nErro! Agência não cadastrada,\n"
+            return "\nErro! Agência não cadastrada.\n"
     except:
         return "\nErro! Agência não cadastrada.\n"
         
@@ -241,3 +241,47 @@ def montanteTotal():
         return f"\nMontante total do banco: R$ {total:.2f}\n"
     except:
         return "\nMontante total do banco: R$ 0.00\n"
+
+
+def transferirConta(idTransferidor, idReceptor, valor):
+    # verifica se as contas existem, se o valor da transferência é possível
+    # e já salva o index de cada um
+    if idTransferidor == idReceptor:
+        return "\nErro! Não é possível fazer transferências para a mesma conta.\n"
+
+    try:
+        with open('contas.json', 'r', encoding="utf-8") as f:
+            dadosConta = json.load(f)
+        
+        achouTransferidor = False
+        achouReceptor = False
+        indexTransferidor = 0
+        indexReceptor = 0
+
+        for i in range(0, len(dadosConta), 4):
+            if dadosConta[i] == idTransferidor:
+                achouTransferidor = True
+                indexTransferidor = i + 1
+                if dadosConta[indexTransferidor] < valor:
+                    return f"\nErro! o valor é maior que o saldo da conta de id {idTransferidor} ({dadosConta[indexTransferidor]})\n"
+            elif dadosConta[i] == idReceptor:
+                achouReceptor = True
+                indexReceptor = i + 1
+        if not achouReceptor and not achouTransferidor:
+            return "\nErro! As contas não existem.\n"
+        elif not achouReceptor:
+            return f"\nErro! A conta de id {idReceptor} não existe.\n"
+        elif not achouTransferidor:
+            return f"\nErro! A conta de id {idTransferidor} não existe.\n"
+    except:
+        return "\nErro! As contas não existem.\n"
+
+    # agora realizaremos a operação
+    dadosConta[indexTransferidor] -= valor
+    dadosConta[indexReceptor] += valor
+
+    #subir tudo de volta
+    with open('contas.json', 'w', encoding="utf-8") as f:
+        json.dump(dadosConta, f, indent=1, ensure_ascii=False)
+    return f"\nSucesso! Saldo de conta {idTransferidor}: R$ {dadosConta[indexTransferidor]:.2f}. Saldo de conta {idReceptor}: R$: {dadosConta[indexReceptor]:.2f}\n"
+    

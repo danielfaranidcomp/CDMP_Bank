@@ -67,6 +67,40 @@ def montanteAgencia(idAgencia):
         return "\nErro! Agência não cadastrada.\n"
 
     # começar a análise do montante:
+    montante = 0
     if dadosAgencia[i-1]:
-        print("oi")
-        #depois termino
+        indexFinal = i + dadosAgencia[i-1]
+        for i in range(i, indexFinal):
+            idAtual = int(list(dadosAgencia[i])[2])
+            montante += conta.consultarSaldo(idAtual, True)
+        return f"\nO montante da agência de id {idAgencia} é R$ {montante}\n"
+    else:
+        return f"\nO montante da agência de id {idAgencia} é R$ 0.00\n"
+
+
+def listarAgencias():
+    try:
+        with open('agencias.json', 'r', encoding="utf-8") as f:
+            dadosAgencias = json.load(f)
+
+        i = 0
+        while i < len(dadosAgencias):
+            print(f"\nAGÊNCIA DE ID: {dadosAgencias[i]}")
+            print(f"Contas associadas à agência: ", end="")
+            i += 1
+            if (dadosAgencias[i]):
+                i += 1
+                final = i + dadosAgencias[i-1]
+                for i in range(i, final):
+                    contaAtual = int(list(dadosAgencias[i])[2])
+                    if i != (final - 1):
+                        print(f"{contaAtual}, ", end="")
+                    else:
+                        print(f"{contaAtual}.")
+            else:
+                print("Nenhuma.")
+            i+= 1
+        return "\nContas listadas com sucesso.\n"
+            
+    except:
+        return "\nSem agências cadastradas até o momento.\n"
