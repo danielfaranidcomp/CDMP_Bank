@@ -104,3 +104,20 @@ def listarAgencias():
             
     except:
         return "\nSem agências cadastradas até o momento.\n"
+
+def relatorioBanco():
+    try:
+        with open('agencias.json', 'r', encoding="utf-8") as f:
+            dadosAgencias = json.load(f)
+
+        i = 0
+        while i < len(dadosAgencias):
+            # imprime o motante da agência atual
+            print(montanteAgencia(dadosAgencias[i]))
+            i += dadosAgencias[i+1] + 2 # calcula a posição do próximo id
+
+        # apresenta o montante total do banco
+        print(conta.montanteTotal())
+        return "\nRelatório do banco exibido com sucesso.\n"
+    except:
+        return "\nNão foi possível exibir o relatório do banco.\n"
