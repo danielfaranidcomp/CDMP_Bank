@@ -14,7 +14,7 @@ def cadastrar_cliente(cpf, nome, email):
         for i in range(0, len(dadosClientes), 4):
 
             if dadosClientes[i + 2] == cpf:
-                print(f"Erro! O CPF '{cpf}' ja esta cadastrado no sistema.")
+                print(f"\nErro! O CPF '{cpf}' ja esta cadastrado no sistema.\n")
                 return
 
         # Cria o ID do novo cliente
@@ -26,7 +26,7 @@ def cadastrar_cliente(cpf, nome, email):
         with open("clientes.json", "w", encoding="utf-8") as f:
             json.dump(dadosClientes, f, indent=1, ensure_ascii=False)
 
-        print(f"Cliente cadastrado com sucesso. ID do cliente: {idnovo}.")
+        print(f"\nCliente cadastrado com sucesso. ID do cliente: {idnovo}.\n")
 
     except:
 
@@ -35,7 +35,7 @@ def cadastrar_cliente(cpf, nome, email):
         with open("clientes.json", "w", encoding="utf-8") as f:
             json.dump([0, nome, cpf, email], f, indent=1, ensure_ascii=False)
 
-        print("Cliente cadastrado com sucesso. ID do cliente: 0.")
+        print("\nCliente cadastrado com sucesso. ID do cliente: 0.\n")
 
 
 # Funcao que lista os clientes
@@ -54,11 +54,10 @@ def listarclientes():
             print(f"CLIENTE DE ID: {dadosClientes[i]}")
             print(f"Nome: {dadosClientes[i + 1]}")
             print(f"CPF: {dadosClientes[i + 2]}")
-            print(f"E-mail: {dadosClientes[i + 3]}")
-            print()
+            print(f"E-mail: {dadosClientes[i + 3]}\n")
 
-        print("Clientes listados com sucesso.")
+        print("\nClientes listados com sucesso.\n")
 
     except:
 
-        print("Nenhum cliente cadastrado ate o momento!")
+        print("\nNenhum cliente cadastrado ate o momento!\n")
