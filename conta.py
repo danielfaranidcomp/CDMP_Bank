@@ -1,287 +1,102 @@
 import json
-import agencia
+import agencia as ag
+import cliente as cl
 
-""" o padrão da lista de contas vai ser o seguinte:
-    para cada conta, o primeiro item é o saldo da conta, o segundo o id,
-    o terceiro o id da agencia, o quarto o número n de clientes associados. 
-    paralelamente, há uma outra lista de contas associadas, com formato:
-    'idConta:idCliente' """
-
-def cadastrarConta(saldoInicial, idCliente, idAgencia):
-    # primeiro verifica se o cliente existe
-    try: 
-        with open('clientes.json', 'r', encoding="utf-8") as f:
+def existeConta(idCliente):
+    try:
+        with open('contas.json', 'r', encoding="utf-8") as f:
             dadosClientes = json.load(f)
-        achou = False #flag
-        for cliente in range(0, len(dadosClientes), 4):
-            if idCliente == dadosClientes[cliente]:
-                achou = True
-        if not achou:
-            return f"\nErro! o cliente de id {idCliente} não existe.\n"
+        return dadosClientes.get(str(idCliente), False)
     except:
-        return f"\nErro! o cliente de id {idCliente} não existe.\n"
+        return False
 
-    # verifica se a agência exsite
-    try:
-        with open('agencias.json', 'r', encoding="utf-8") as f:
-            dadosAgencia = json.load(f)
-        # procurar e já salvar o index em indexAgencia
-        achou = False
-        i = 0
-        while i < len(dadosAgencia) and not achou:
-            if dadosAgencia[i] == idAgencia:
-                achou = True
-                i += 2
-            else:
-                i += dadosAgencia[i+1] + 2
-        if not achou:
-            return "\nErro! Agência não cadastrada.\n"
-    except:
-        return "\nErro! Agência não cadastrada.\n"
-        
-    # iniciando operação de cadastro da conta
-    try:
-        # pega tudo que tá em contas e relacaoContaCliente
+
+def cadastrarConta(idCliente, idAgencia, saldo, tipo):
+    # primeiro verifica se o cliente e a agência existem
+    if not cl.existeCliente(idCliente):
+        return f"\nErro! O cliente de id {idCliente} não existe.\n"
+    if not ag.existeAgencia(idAgencia):
+        return f"\nErro! A agência de id {idAgencia} não existe.\n"
+
+    try: # caso já existam contas criadas
         with open('contas.json', 'r', encoding="utf-8") as f:
             dadosContas = json.load(f)
-        with open('relacaoContaCliente.json', 'r', encoding="utf-8") as f:
-            dadosRelacaoContaCliente = json.load(f)
-        id = dadosContas[-4] + 1 # determinando o id da conta nova
-        dadosContas.extend([id, saldoInicial, idAgencia , 1]) # joga tudo na lista
-        dadosRelacaoContaCliente.append(f"{id}:{idCliente}")
-        #colocando de volta no json
+        id = int(list(dadosContas)[-1]) + 1 # novo id = ultimo id + 1
+        dadosContas[str(id)] = {"tipo": tipo, "clientesAssociados": [idCliente], 
+                           "agenciaAssociada": idAgencia, "saldo": saldo}
+        ag.associarContaAgencia(idAgencia, id)
+        with open('contas.json', 'w', econding="utf-8") as f:
+            json.dump(dadosContas, f, indent=2, ensure_ascii=False) # insere alterações
+        return f"\nConta de id {id} cadastrada com sucesso!\n"
+    except: # primeira conta criada
+        dadosContas = {"0": {"tipo": tipo, "clientesAssociados": [idCliente], 
+                            "agenciaAssociada": idAgencia, "saldo": saldo}}
+        ag.associarContaAgencia(idAgencia, 0)
         with open('contas.json', 'w', encoding="utf-8") as f:
-            json.dump(dadosContas, f, indent=1, ensure_ascii=False)
-        with open('relacaoContaCliente.json', 'w', encoding="utf-8") as f:
-            json.dump(dadosRelacaoContaCliente, f, indent=1, ensure_ascii=False)
-        print(agencia.associarContaAgencia(idAgencia, id, i))
-        return f"\nConta cadastrada com sucesso. id da conta: {id}.\n" 
-    except: # nesse caso aqui, vai ser o primeiro cliente a ser cadastrado
-        print(agencia.associarContaAgencia(idAgencia, 0, i))
-        with open('contas.json', 'w', encoding="utf-8") as f:
-            json.dump([0, saldoInicial, idAgencia, 1], f, indent=1, ensure_ascii=False)
-        with open('relacaoContaCliente.json', 'w', encoding="utf-8") as f:
-            json.dump([f"0:{idCliente}"], f, indent=1, ensure_ascii=False)
-            return "\nConta cadastrada com sucesso. id da conta: 0.\n"
-
-
-def associarClienteConta(idConta, idCliente):
-    # primeiro verifica se o cliente existe
-    try: 
-        with open('clientes.json', 'r', encoding="utf-8") as f:
-            dadosClientes = json.load(f)
-        achou = False #flag
-        for cliente in range(0, len(dadosClientes), 4):
-            if idCliente == dadosClientes[cliente]:
-                achou = True
-        if not achou:
-            return f"\nErro! o cliente de id {idCliente} não existe.\n"
-    except:
-        return f"\nErro! o cliente de id {idCliente} não existe.\n"
-
-    # segundo verifica se a conta existe ou nem
-    # também já vai buscando o index que vai receber o insert na relacaoContaCliente
-    try:
-        with open('contas.json', 'r', encoding="utf-8") as f:
-            dadosContas = json.load(f)
-        achou = False
-        indexDoInsert = -1
-        rangeFinalInsert = 0 #isso vai ser útil lá pra frente
-        for conta in range(0, len(dadosContas), 4):
-            if idConta == dadosContas[conta]:
-                indexDoInsert += 1
-                rangeFinalInsert = indexDoInsert + dadosContas[conta+3]
-                achou = True
-                # aproveita e já aumenta o número da qntdd de clientes associados
-                dadosContas[conta+3] += 1
-            if not achou:
-                indexDoInsert += dadosContas[conta+3]
-        if not achou:
-            return f"\nErro! a conta de id {idConta} não existe.\n"
-    except:
-        return f"\nErro! a conta de id {idConta} não existe.\n"
-
-    # vamos agora fazer a inserção ORDENADA e verificar se o já não está associado.
-    # não cheguei a  usar try porque se as outras etapas deram certo, com certeza o arquivo existe entao...
-    with open('relacaoContaCliente.json', 'r', encoding="utf-8") as f:
-        dadosRelacaoContaCliente = json.load(f)
-    ehUltimo = True #flag
-    for i in range(indexDoInsert, rangeFinalInsert):
-        idAtual = int(list(dadosRelacaoContaCliente[i])[2])
-        if idCliente < idAtual:
-            dadosRelacaoContaCliente.insert(i, f"{idConta}:{idCliente}")
-            ehUltimo = False
-        elif idAtual == idCliente:
-            return f"\nO id {idCliente} já está associado à conta.\n"
-    if ehUltimo:
-        dadosRelacaoContaCliente.insert(i+1, f"{idConta}:{idCliente}")
-    # subindo lá dento
-    with open('relacaoContaCliente.json', 'w', encoding="utf-8") as f:
-        json.dump(dadosRelacaoContaCliente, f, indent=1, ensure_ascii=False)
-    with open('contas.json', 'w', encoding="utf-8") as f:
-        json.dump(dadosContas, f, indent=1, ensure_ascii=False)
-    return "\nCliente associado à conta com sucesso\n"
-
-
-def listarContas():
-    try:
-        with open('contas.json', 'r', encoding="utf-8") as f:
-            dadosConta = json.load(f)
-        with open('relacaoContaCliente.json', 'r', encoding="utf-8") as f:
-            dadosRelacaoContaCliente = json.load(f)
-        contadorClienteConta = -1
-        for i in range(0, len(dadosConta), 4):
-            print(f"\nCONTA DE ID: {dadosConta[i]}")
-            print(f"Saldo da conta: {dadosConta[i+1]:.2f}")
-            print(f"Id da agência da conta: {dadosConta[i+2]}")
-            print("Id do(s)) cliente(s) associado(s) à conta: ", end="")
-            for j in range(0, dadosConta[i+3]):
-                contadorClienteConta += 1
-                informacao = list(dadosRelacaoContaCliente[contadorClienteConta])
-                # só deixando bonitinho, separando por vírgula e ponto final tlgd
-                if str(j+1) != str(dadosConta[i+3]):
-                    print(f"{informacao[2]}, ", end="")
-                else:
-                    print(f"{informacao[2]}.")
-        return "\nContas listadas com sucesso.\n"
-    except:
-        return "\nNenhuma conta cadastrada até o momento!\n"
-
-
-def sacarConta(idConta, valor):
-    # primeiro vamos verificar se a conta existe, se o saque é possível
-    # e já salvar o endereço do saldo na lista
-    try:
-        with open('contas.json', 'r', encoding="utf-8") as f:
-            dadosContas = json.load(f)
-        achou = False
-        index = 0
-        for i in range(0, len(dadosContas), 4):
-            if dadosContas[i] == idConta:
-                achou = True
-                index = i+1
-                if dadosContas[index] < valor:
-                    return f"\nErro! o valor ultrapassa o saldo da conta. (R$ {dadosContas[index]:.2f})\n"
-        if not achou:
-            return f"\nErro! A conta não existe.\n"
-    except:
-        return f"\nErro! A conta não existe.\n"
-
-    # agora vamos fazer a operação
-    dadosContas[index] -= valor
-
-    # joga la dentro dnv
-    with open('contas.json', 'w', encoding="utf-8") as f:
-        json.dump(dadosContas, f, indent=1, ensure_ascii=False)
-    return f"\nValor de R$ {valor:.2f} sacado com sucesso. Saldo atual: R$ {dadosContas[index]:.2f}\n"
+            json.dump(dadosContas, f, indent=2, ensure_ascii=False)
+        return "\nConta de id 0 cadastrada com sucesso!\n"
 
 
 def depositarConta(idConta, valor):
-    # primeiro vamos verificar se a conta existe e já salvar o endereço do saldo na lista
-    try:
-        with open('contas.json', 'r', encoding="utf-8") as f:
-            dadosContas = json.load(f)
-        achou = False
-        index = 0
-        for i in range(0, len(dadosContas), 4):
-            if dadosContas[i] == idConta:
-                achou = True
-                index = i+1
-        if not achou:
-            return f"\nErro! A conta não existe.\n"
-    except:
-        return f"\nErro! A conta não existe.\n"
-
-    # agora vamos fazer a operação
-    dadosContas[index] += valor
-
-    # joga la dentro dnv
+    if not existeConta(idConta):
+        return f"\nErro! A conta de id {idConta} não existe.\n"
+    with open('contas.json', 'r', encoding="utf-8") as f:
+        dadosContas = json.load(f)
+    if dadosContas[str(idConta)]["tipo"] == "salário":
+        return f"\nErro! O tipo da conta {idConta} é salário. Depósitos não são possíveis\n"
+    dadosContas[str(idConta)]["saldo"] += valor    
     with open('contas.json', 'w', encoding="utf-8") as f:
-        json.dump(dadosContas, f, indent=1, ensure_ascii=False)
-    return f"\nValor de R$ {valor:.2f} depositado com sucesso. Saldo atual: R$ {dadosContas[index]:.2f}\n"
+        json.dump(dadosContas, f, indent="utf-8", ensure_ascii=False)
+    return f"\nValor depositado com sucesso. Saldo atual: R$ {dadosContas[str(idConta)]["saldo"]:.2f}\n"
 
 
-# valorPuro = True retorna somente o número, valorPuro = False retorna uma frase.
-def consultarSaldo(idConta, valorPuro): 
-    # primeiro vamos verificar se a conta existe e já salvar o endereço do saldo na lista
-    try:
-        with open('contas.json', 'r', encoding="utf-8") as f:
-            dadosContas = json.load(f)
-        achou = False
-        index = 0
-        for i in range(0, len(dadosContas), 4):
-            if dadosContas[i] == idConta:
-                achou = True
-                index = i+1
-        if not achou:
-            if valorPuro:
-                return False
-            else:
-                return f"\nErro! A conta não existe.\n"
-    except:
-        if valorPuro:
-            return False
-        else:
-            return f"\nErro! A conta não existe.\n"
-
-    # agora vamos retornar o valor so saldo
-    if valorPuro:
-        return dadosContas[index]
-    else:
-        return f"\nO valor do saldo é R$ {dadosContas[index]:.2f}\n"
-
-
-def montanteTotal():
-    try:
-        with open('contas.json', 'r', encoding="utf-8") as f:
-            dadosConta = json.load(f)
-        total = 0
-        for i in range(1, len(dadosConta), 4):
-            total += dadosConta[i]
-        return f"\nMontante total do banco: R$ {total:.2f}\n"
-    except:
-        return "\nMontante total do banco: R$ 0.00\n"
-
-
-def transferirConta(idTransferidor, idReceptor, valor):
-    # verifica se as contas existem, se o valor da transferência é possível
-    # e já salva o index de cada um
-    if idTransferidor == idReceptor:
-        return "\nErro! Não é possível fazer transferências para a mesma conta.\n"
-
-    try:
-        with open('contas.json', 'r', encoding="utf-8") as f:
-            dadosConta = json.load(f)
-        
-        achouTransferidor = False
-        achouReceptor = False
-        indexTransferidor = 0
-        indexReceptor = 0
-
-        for i in range(0, len(dadosConta), 4):
-            if dadosConta[i] == idTransferidor:
-                achouTransferidor = True
-                indexTransferidor = i + 1
-                if dadosConta[indexTransferidor] < valor:
-                    return f"\nErro! o valor é maior que o saldo da conta de id {idTransferidor} ({dadosConta[indexTransferidor]})\n"
-            elif dadosConta[i] == idReceptor:
-                achouReceptor = True
-                indexReceptor = i + 1
-        if not achouReceptor and not achouTransferidor:
-            return "\nErro! As contas não existem.\n"
-        elif not achouReceptor:
-            return f"\nErro! A conta de id {idReceptor} não existe.\n"
-        elif not achouTransferidor:
-            return f"\nErro! A conta de id {idTransferidor} não existe.\n"
-    except:
-        return "\nErro! As contas não existem.\n"
-
-    # agora realizaremos a operação
-    dadosConta[indexTransferidor] -= valor
-    dadosConta[indexReceptor] += valor
-
-    #subir tudo de volta
+def sacarConta(idConta, valor):
+    if not existeConta(idConta):
+        return f"\nErro! A conta de id {idConta} não existe.\n"
+    with open('contas.json', 'r', encoding="utf-8") as f:
+        dadosConta = json.load(f)
+    if dadosConta[str(idConta)]["saldo"] < valor:
+        return f"\nErro! O valor R$ {valor:.2f} é superior ao saldo da conta. (R$ {dadosConta[str(idConta)]["saldo"]})\n"
+    dadosConta[str(idConta)]["saldo"] -= valor
     with open('contas.json', 'w', encoding="utf-8") as f:
-        json.dump(dadosConta, f, indent=1, ensure_ascii=False)
-    return f"\nSucesso! Saldo de conta {idTransferidor}: R$ {dadosConta[indexTransferidor]:.2f}. Saldo de conta {idReceptor}: R$: {dadosConta[indexReceptor]:.2f}\n"
-    
+        json.dump(dadosConta, f, indent=2, ensure_ascii=False)
+
+
+def transferirConta(idTransfere, idRecebe, valor):
+    if not existeConta(idTransfere) and existeConta(idRecebe):
+        return "\nErro! Nenhuma das contas existem.\n"
+    if not existeConta(idTransfere):
+        return f"\nErro! a conta de id {idTransfere} não existe.\n"
+    if not existeConta(idRecebe):
+        return f"\nErro! a conta de id {idRecebe} não existe.\n"
+
+    with open('contas.json', 'r', encoding="utf-8") as f:
+        dadosConta = json.load(f)
+    if dadosConta[str(idTransfere)]["saldo"] < valor:
+        return f"\nErro! O valor R$ {valor:.2f} supera o saldo da conta de id {idTransfere}. (R$ {dadosConta[(str(idTransfere))]["saldo"]})\n"
+
+    dadosConta[str(idTransfere)]["saldo"] -= valor
+    dadosConta[str(idRecebe)]["saldo"] += valor
+
+    with open('contas.json', 'w', encoding="utf-8") as f:
+        json.dump(dadosConta, f, indent=2, ensure_ascii=False)
+    return f"\nTransferência realizada com sucesso! Saldo de conta {idTransfere}: R$ {dadosConta[str(idTransfere)]["saldo"]:.2f}. Saldo de conta {idRecebe}: R$ {dadosConta[str(idRecebe)]["saldo"]:.2f}\n"
+
+
+def consultaSaldo(idConta):
+    if not existeConta(idConta):
+        return f"\nErro! A conta de id {idConta} não existe.\n"
+    with open('contas.json', 'r', encoding="utf-8") as f:
+        dadosConta = json.load(f)
+    return f"\nO saldo da conta de id {idConta} é R$ {dadosConta[str(idConta)]["saldo"]:.2f}\n"
+
+
+def verificarCpf(cpf):
+    digitos = list(filter(lambda x: x != '.' and x != '-', cpf))
+    def verificaAte(limite, digitos):
+        soma = 0
+        for i in range(0, limite):
+            soma += int(digitos[i]) * (limite + 1 - i)
+        resto = soma % 11
+        return (resto < 2 and int(digitos[limite]) == 0) or (resto >= 2 and int(digitos[limite]) == 11 - resto)
+    return verificaAte(9, digitos) and verificaAte(10, digitos)
