@@ -33,7 +33,7 @@ def verificar_cliente(cpf):
     import conta as ct
 
     # Verifica se o CPF é válido
-    if not verificarCPF(cpf)
+    if not verificarCPF(cpf):
         print("Error")
         return false
 
