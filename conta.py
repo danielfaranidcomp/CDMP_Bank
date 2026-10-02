@@ -23,14 +23,14 @@ def cadastrarConta(idCliente, idAgencia, saldo, tipo):
             dadosContas = json.load(f)
         id = int(list(dadosContas)[-1]) + 1 # novo id = ultimo id + 1
         dadosContas[str(id)] = {"tipo": tipo, "clientesAssociados": [idCliente], 
-                           "agenciaAssociada": idAgencia, "saldo": saldo}
+                           "agencia": idAgencia, "saldo": saldo}
         ag.associarContaAgencia(idAgencia, id)
         with open('contas.json', 'w', econding="utf-8") as f:
             json.dump(dadosContas, f, indent=2, ensure_ascii=False) # insere alterações
         return f"\nConta de id {id} cadastrada com sucesso!\n"
     except: # primeira conta criada
         dadosContas = {"0": {"tipo": tipo, "clientesAssociados": [idCliente], 
-                            "agenciaAssociada": idAgencia, "saldo": saldo}}
+                            "agencia": idAgencia, "saldo": saldo}}
         ag.associarContaAgencia(idAgencia, 0)
         with open('contas.json', 'w', encoding="utf-8") as f:
             json.dump(dadosContas, f, indent=2, ensure_ascii=False)
@@ -42,7 +42,7 @@ def depositarConta(idConta, valor):
         return f"\nErro! A conta de id {idConta} não existe.\n"
     with open('contas.json', 'r', encoding="utf-8") as f:
         dadosContas = json.load(f)
-    if dadosContas[str(idConta)]["tipo"] == "salário":
+    if dadosContas[str(idConta)]["tipo"] == "salario":
         return f"\nErro! O tipo da conta {idConta} é salário. Depósitos não são possíveis\n"
     dadosContas[str(idConta)]["saldo"] += valor    
     with open('contas.json', 'w', encoding="utf-8") as f:
@@ -74,7 +74,9 @@ def transferirConta(idTransfere, idRecebe, valor):
         dadosConta = json.load(f)
     if dadosConta[str(idTransfere)]["saldo"] < valor:
         return f"\nErro! O valor R$ {valor:.2f} supera o saldo da conta de id {idTransfere}. (R$ {dadosConta[(str(idTransfere))]["saldo"]})\n"
-
+    if dadosConta[str(idTransfere) or str([idRecebe])]["tipo"] == "salario":
+        return f"\nErro! Uma conta de tipo salário não pode realizar transferências.\n"
+    
     dadosConta[str(idTransfere)]["saldo"] -= valor
     dadosConta[str(idRecebe)]["saldo"] += valor
 
@@ -83,7 +85,7 @@ def transferirConta(idTransfere, idRecebe, valor):
     return f"\nTransferência realizada com sucesso! Saldo de conta {idTransfere}: R$ {dadosConta[str(idTransfere)]["saldo"]:.2f}. Saldo de conta {idRecebe}: R$ {dadosConta[str(idRecebe)]["saldo"]:.2f}\n"
 
 
-def consultaSaldo(idConta):
+def consultarSaldo(idConta):
     if not existeConta(idConta):
         return f"\nErro! A conta de id {idConta} não existe.\n"
     with open('contas.json', 'r', encoding="utf-8") as f:
@@ -91,8 +93,28 @@ def consultaSaldo(idConta):
     return f"\nO saldo da conta de id {idConta} é R$ {dadosConta[str(idConta)]["saldo"]:.2f}\n"
 
 
+def listarContas():
+    try:
+        with open('contas.json', 'r', encoding="utf-8") as f:
+            dadosConta = json.load(f)
+        for id, conta in dadosConta.items():
+            print(f"\nCONTA DE ID {id}")
+            print(f"Saldo: R$ {conta["saldo"]}")
+            print(f"Tipo: {conta["tipo"]}")
+            print(f"Agência: {conta["agencia"]}")
+            print("Clientes associados: ", end="")
+            for clientes in conta["clientesAssociados"]:
+                print(clientes, end="")
+                print(", " if clientes != conta["clientesAssociados"][-1] else ".\n", end="")
+        return "\nContas listadas com sucesso.\n"
+    except:
+        return "\nNenhuma conta cadastrada até o momento.\n"
+
+
 def verificarCpf(cpf):
     digitos = list(filter(lambda x: x != '.' and x != '-', cpf))
+    if len(digitos) != 11:
+        return False
     def verificaAte(limite, digitos):
         soma = 0
         for i in range(0, limite):
@@ -100,3 +122,16 @@ def verificarCpf(cpf):
         resto = soma % 11
         return (resto < 2 and int(digitos[limite]) == 0) or (resto >= 2 and int(digitos[limite]) == 11 - resto)
     return verificaAte(9, digitos) and verificaAte(10, digitos)
+
+
+def relatorioBanco():
+    ag.listarAgencias()
+    soma = 0
+    try:
+        with open('contas.json', 'r', encoding="utf-8") as f:
+            dadosConta = json.load(f)
+        for contas in dadosConta.value():
+            soma += contas["saldo"]
+        return f"\nMontante total do banco: R$ {soma:.2f}\n"
+    except:
+        return "\nSem contas cadastradas até o momento.\n"

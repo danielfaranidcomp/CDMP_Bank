@@ -33,9 +33,9 @@ def verificar_cliente(cpf):
     import conta as ct
 
     # Verifica se o CPF é válido
-    if not verificarCPF(cpf):
+    if not ct.verificarCpf(cpf):
         print("Error")
-        return false
+        return False
 
     # Carrega os clientes cadastrados
     dados_clientes = carregar_clientes()

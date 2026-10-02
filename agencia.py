@@ -23,6 +23,7 @@ def cadastrarAgencia():
         dadosAgencia = {"0": {"contasAssociadas": []}}
         with open('agencias.json', 'w', encoding="utf-8") as f:
             json.dump(dadosAgencia, f, indent=2, ensure_ascii=False)
+        return "\nAgência de id 0 criada com sucesso.\n"
 
 
 def associarContaAgencia(idAgencia, idConta):
@@ -32,3 +33,21 @@ def associarContaAgencia(idAgencia, idConta):
     dadosAgencia[str(idAgencia)]["contasAssociadas"].append(idConta)
     with open('agencias.json', 'w', encoding="utf-8") as f:
         json.dump(dadosAgencia, f, indent=2, ensure_ascii=False)
+
+
+def listarAgencias():
+    try:
+        with open('agencias.json', 'r', encoding="utf-8") as f:
+            dadosAgencia = json.load(f)
+        for id, agencia in dadosAgencia.items():
+            print(f"\nAGÊNCIA DE ID {id}")
+            print("Id das contas associadas: ", end="")
+            if (agencia["contasAssociadas"]):
+                for contas in agencia["contasAssociadas"]:
+                    print(contas, end="")
+                    print(", " if contas != agencia["contasAssociadas"][-1] else ".\n", end="")
+            else:
+                print("Nenhuma conta associada.")
+        return "\nAgências listadas com sucesso.\n"
+    except:
+        return "\nNenhuma agência cadastrada até o momento.\n"
