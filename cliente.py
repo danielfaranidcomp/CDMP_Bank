@@ -34,7 +34,7 @@ def verificar_cliente(cpf):
 
     # Verifica se o CPF é válido
     if not ct.verificarCpf(cpf):
-        print("Error")
+        print("\nErro! o CPF é inválido\n")
         return False
 
     # Carrega os clientes cadastrados
@@ -162,7 +162,7 @@ def associar_cliente_conta(id_conta, id_cliente):
     import conta as ct
 
     # Primeiro verificamos se a conta existe
-    if not ct.existe_conta(id_conta):
+    if not ct.existeConta(id_conta):
         return "\nErro! A conta de id {} não existe.\n".format(id_conta)
 
     # Depois verificamos se o cliente existe
@@ -174,13 +174,13 @@ def associar_cliente_conta(id_conta, id_cliente):
         dados_contas = json.load(arquivo)
 
     # Verifica se o cliente já está associado à conta
-    if id_cliente in dados_contas[str(id_conta)]["clientes_associados"]:
+    if id_cliente in dados_contas[str(id_conta)]["clientesAssociados"]:
         return "\nO cliente {} já está associado à conta {}.\n".format(
             id_cliente, id_conta
         )
 
     # Adiciona o cliente à lista de clientes daquela conta
-    dados_contas[str(id_conta)]["clientes_associados"].append(id_cliente)
+    dados_contas[str(id_conta)]["clientesAssociados"].append(id_cliente)
 
     # Salva novamente o arquivo de contas
     with open("contas.json", "w", encoding="utf-8") as arquivo:

@@ -91,7 +91,7 @@ while not menu:
     # Associar cliente a uma conta existente    
         idCliente = int(input("Digite o ID do cliente: "))
         idConta = int(input("Digite o ID da conta: "))
-        print(cliente.associar_cliente_conta(idCliente, idConta))
+        print(cliente.associar_cliente_conta(idConta, idCliente))
         
     elif opcao=="12":
         print(conta.relatorioBanco())    

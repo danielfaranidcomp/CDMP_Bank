@@ -13,7 +13,7 @@ def existeConta(idCliente):
 
 def cadastrarConta(idCliente, idAgencia, saldo, tipo):
     # primeiro verifica se o cliente e a agência existem
-    if not cl.existeCliente(idCliente):
+    if not cl.existe_cliente(idCliente):
         return f"\nErro! O cliente de id {idCliente} não existe.\n"
     if not ag.existeAgencia(idAgencia):
         return f"\nErro! A agência de id {idAgencia} não existe.\n"
@@ -22,18 +22,20 @@ def cadastrarConta(idCliente, idAgencia, saldo, tipo):
         with open('contas.json', 'r', encoding="utf-8") as f:
             dadosContas = json.load(f)
         id = int(list(dadosContas)[-1]) + 1 # novo id = ultimo id + 1
-        dadosContas[str(id)] = {"tipo": tipo, "clientesAssociados": [idCliente], 
+        dadosContas[str(id)] = {"tipo": tipo, "clientesAssociados": [], 
                            "agencia": idAgencia, "saldo": saldo}
         ag.associarContaAgencia(idAgencia, id)
-        with open('contas.json', 'w', econding="utf-8") as f:
+        with open('contas.json', 'w', encoding="utf-8") as f:
             json.dump(dadosContas, f, indent=2, ensure_ascii=False) # insere alterações
+        cl.associar_cliente_conta(id, idCliente)
         return f"\nConta de id {id} cadastrada com sucesso!\n"
     except: # primeira conta criada
-        dadosContas = {"0": {"tipo": tipo, "clientesAssociados": [idCliente], 
+        dadosContas = {"0": {"tipo": tipo, "clientesAssociados": [], 
                             "agencia": idAgencia, "saldo": saldo}}
         ag.associarContaAgencia(idAgencia, 0)
         with open('contas.json', 'w', encoding="utf-8") as f:
             json.dump(dadosContas, f, indent=2, ensure_ascii=False)
+        cl.associar_cliente_conta("0", idCliente)
         return "\nConta de id 0 cadastrada com sucesso!\n"
 
 
@@ -46,7 +48,7 @@ def depositarConta(idConta, valor):
         return f"\nErro! O tipo da conta {idConta} é salário. Depósitos não são possíveis\n"
     dadosContas[str(idConta)]["saldo"] += valor    
     with open('contas.json', 'w', encoding="utf-8") as f:
-        json.dump(dadosContas, f, indent="utf-8", ensure_ascii=False)
+        json.dump(dadosContas, f, indent=2, ensure_ascii=False)
     return f"\nValor depositado com sucesso. Saldo atual: R$ {dadosContas[str(idConta)]["saldo"]:.2f}\n"
 
 
@@ -60,6 +62,7 @@ def sacarConta(idConta, valor):
     dadosConta[str(idConta)]["saldo"] -= valor
     with open('contas.json', 'w', encoding="utf-8") as f:
         json.dump(dadosConta, f, indent=2, ensure_ascii=False)
+        return f"\nSaque realizado. Saldo atual da conta {idConta}: R$ {dadosConta[str(idConta)]["saldo"]:.2f}\n"
 
 
 def transferirConta(idTransfere, idRecebe, valor):
@@ -130,7 +133,7 @@ def relatorioBanco():
     try:
         with open('contas.json', 'r', encoding="utf-8") as f:
             dadosConta = json.load(f)
-        for contas in dadosConta.value():
+        for id, contas in dadosConta.items():
             soma += contas["saldo"]
         return f"\nMontante total do banco: R$ {soma:.2f}\n"
     except:
