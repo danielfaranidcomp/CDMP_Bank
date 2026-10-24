@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Conta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header header-small">
+            <h1 class="logo">CDMP <span>Bank</span></h1>
+            <a href="/" class="back-btn" style="text-decoration: none;">← Voltar ao Menu</a>
+        </header>
+
+        <main class="dashboard dashboard-split">
+            <section class="panel form-panel">
+                <h2 class="panel-title">Nova Conta</h2>
+                <p class="panel-desc">Preencha os dados abaixo para registrar uma nova conta no sistema.</p>
+
+                {% if mensagem %}
+                <div class="alerta {{ 'alerta-ok' if sucesso else 'alerta-erro' }}">{{ mensagem }}</div>
+                {% endif %}
+
+                <form action="cadastrar-conta" method="POST" class="form-container">
+                    <div class="input-group">
+                        <label for="id-cliente">Id do Cliente</label>
+                        <input type="text" id="id-cliente" name="id-cliente" placeholder="Digite o Id do cliente associado" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="id-agencia">Id da Agência</label>
+                        <input type="text" id="id-agencia" name="id-agencia" placeholder="Digite o Id da agência associada" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="valor">Saldo</label>
+                        <div class="currency-wrapper">
+                            <span class="currency-symbol">R$</span>
+                            <input type="number" id="saldo" name="saldo" placeholder="0.00" step="0.01" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="tipo_conta">Tipo de Conta</label>
+                        <select id="tipo_conta" name="tipo_conta" required>
+                            <option value="" disabled selected>Selecione uma opção...</option>
+                            <option value="corrente">Conta Corrente</option>
+                            <option value="poupanca">Conta Poupança</option>
+                            <option value="salario">Conta Salário</option>
+                        </select>
+                    </div>
+
+                    <!-- <div class="input-group">
+                        <label for="saldo">Saldo</label>
+                        <input type="number" id="saldo" name="saldo" min="0" step="0.01" placeholder="Digite o saldo em R$">
+                    </div> -->
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-salvar">Salvar Conta</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- PAINEL 2: Associar Cliente à Conta -->
+            <section class="panel form-panel">
+                <h2 class="panel-title">Associar Cliente à Conta</h2>
+                <p class="panel-desc">Vincule um cliente existente a uma conta.</p>
+                
+                <form action="/associar-cliente-conta" method="POST" class="form-container">
+                    <div class="input-group">
+                        <label for="id_cliente">ID do Cliente</label>
+                        <input type="text" id="id_cliente" name="id_cliente" placeholder="Digite o Id do cliente">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="id_conta">ID da Conta</label>
+                        <input type="text" id="id_conta" name="id_conta" placeholder="Digite o Id da conta"required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-salvar">Associar</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

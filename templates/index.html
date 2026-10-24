@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal</title>
+    <!-- Fonte minimalista -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1 class="logo">CDMP <span>Bank</span></h1>
+            <p class="subtitle">Painel de Gerenciamento do Sistema</p>
+        </header>
+
+        <main class="dashboard">
+            <!-- Seção de Cadastros -->
+            <section class="panel">
+                <h2 class="panel-title">Cadastros</h2>
+                <div class="grid">
+                    <a href="/cadastrar-cliente" class="card-btn" style="text-decoration: none;">
+                        <span class="icon">+</span>
+                        <span class="text">Cliente</span>
+                    </a>
+                    <a href="/cadastrar-conta" class="card-btn" style="text-decoration: none;">
+                        <span class="icon">+</span>
+                        <span class="text">Conta</span>
+                    </a>
+                    <a href="/cadastrar-agencia" class="card-btn" style="text-decoration: none;">
+                        <span class="icon">+</span>
+                        <span class="text">Agência</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Seção de Visualizações -->
+            <section class="panel">
+                <h2 class="panel-title">Consultas</h2>
+                <div class="grid">
+                    <a href="/clientes" class="card-btn alt-btn" style="text-decoration: none;">
+                        <span class="icon">➜</span>
+                        <span class="text">Ver Clientes</span>
+                    </a>
+                    <a href="/contas" class="card-btn alt-btn" style="text-decoration: none;">
+                        <span class="icon">➜</span>
+                        <span class="text">Ver Contas</span>
+                    </a>
+                    <a href="/agencias" class="card-btn alt-btn" style="text-decoration: none;">
+                        <span class="icon">➜</span>
+                        <span class="text">Ver Agências</span>
+                    </a>
+                    <a href="/dashboard" class="card-btn alt-btn" style="text-decoration: none;">
+                        <span class="icon">➜</span>
+                        <span class="text">Dashboard Completo</span>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Cliente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header header-small">
+            <h1 class="logo">CDMP <span>Bank</span></h1>
+            <a href="/" class="back-btn" style="text-decoration: none;">← Voltar ao Menu</a>
+        </header>
+
+        <main class="dashboard">
+            <section class="panel form-panel">
+                <h2 class="panel-title">Novo Cliente</h2>
+                <p class="panel-desc">Preencha os dados abaixo para registrar um novo cliente no sistema.</p>
+
+                {% if mensagem %}
+                <div class="alerta {{ 'alerta-ok' if sucesso else 'alerta-erro' }}">{{ mensagem }}</div>
+                {% endif %}
+
+                <form action="cadastrar-cliente" method="POST" class="form-container">
+                    <div class="input-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="cpf">CPF</label>
+                        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="fulano@exemplo.com" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-salvar">Salvar Cliente</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

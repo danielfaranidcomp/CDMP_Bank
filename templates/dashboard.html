@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header header-small">
+            <h1 class="logo">CDMP <span>Bank</span></h1>
+            <a href="/" class="back-btn" style="text-decoration: none;">← Voltar ao Menu</a>
+        </header>
+
+        <main class="dashboard">
+            <section class="panel">
+                <h2 class="panel-title">Análise Financeira</h2>
+                <div class="grid">
+                    <div class="stat-card"><span class="stat-label">Clientes</span><span class="stat-value">{{ clientes }}</span></div>
+                    <div class="stat-card"><span class="stat-label">Contas</span><span class="stat-value">{{ contas }}</span></div>
+                    <div class="stat-card"><span class="stat-label">Saldo Total</span><span class="stat-value">{{ total }}</span></div>
+                    <div class="stat-card"><span class="stat-label">Maior Saldo</span><span class="stat-value">{{ maior }}</span></div>
+                    <div class="stat-card"><span class="stat-label">Saldo Médio</span><span class="stat-value">{{ media }}</span></div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

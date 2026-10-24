@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Agência</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header header-small">
+            <h1 class="logo">CDMP <span>Bank</span></h1>
+            <a href="/" class="back-btn" style="text-decoration: none;">← Voltar ao Menu</a>
+        </header>
+
+        <main class="dashboard dashboard-split">
+            <section class="panel form-panel">
+                <h2 class="panel-title">Nova Agência</h2>
+                <p class="panel-desc">Preencha os dados abaixo para registrar uma nova agência no sistema.</p>
+
+                {% if mensagem %}
+                <div class="alerta {{ 'alerta-ok' if sucesso else 'alerta-erro' }}">{{ mensagem }}</div>
+                {% endif %}
+
+                <form action="cadastrar-agencia" method="POST" class="form-container">
+                    <div class="input-group">
+                        <label for="endereco">Endereço</label>
+                        <input type="text" id="endereco" name="endereco" placeholder="Digite o endereço físico da agência" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-salvar">Salvar Agência</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- PAINEL 2: Associar Conta a Cliente -->
+            <section class="panel form-panel">
+                <h2 class="panel-title">Associar Conta à Agência</h2>
+                <p class="panel-desc">Vincule uma conta existente a uma agência.</p>
+                
+                <form action="/associar-conta-agencia" method="POST" class="form-container">
+                    <div class="input-group">
+                        <label for="id-conta">ID da conta</label>
+                        <input type="text" id="id-conta" name="id-conta" placeholder="Digite o Id da conta">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="id-agencia">ID da Agência</label>
+                        <input type="text" id="id-agencia" name="id-agencia" placeholder="Digite o Id da agência"required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-salvar">Associar</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

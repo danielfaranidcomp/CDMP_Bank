@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header header-small">
+            <h1 class="logo">CDMP <span>Bank</span></h1>
+            <a href="/" class="back-btn" style="text-decoration: none;">← Voltar ao Menu</a>
+        </header>
+
+        <main class="dashboard">
+            {% if resumo %}
+            <section class="panel">
+                <div class="grid">
+                    {% for nome, valor in resumo %}
+                    <div class="stat-card"><span class="stat-label">{{ nome }}</span><span class="stat-value">{{ valor }}</span></div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <section class="panel">
+                <h2 class="panel-title">{{ titulo }}</h2>
+                {% if linhas %}
+                <table class="data-table">
+                    <thead>
+                        <tr>{% for coluna in colunas %}<th>{{ coluna }}</th>{% endfor %}</tr>
+                    </thead>
+                    <tbody>
+                        {% for linha in linhas %}
+                        <tr>{% for campo in linha %}<td>{{ campo }}</td>{% endfor %}</tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="panel-desc">{{ vazio }}</p>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>

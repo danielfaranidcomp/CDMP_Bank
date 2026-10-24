@@ -1,0 +1,334 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0d0d0d;
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.logo {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    font-weight: 300;
+    color: #6c757d;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 0.5rem;
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.panel-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #aaa;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* Estilo minimalista dos botões/cards */
+.card-btn {
+    background-color: #151515;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: all 0.2s ease;
+    color: #e0e0e0;
+}
+
+.card-btn:hover {
+    background-color: #1e1e1e;
+    border-color: #444;
+    transform: translateY(-2px);
+}
+
+.card-btn .icon {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.card-btn:hover .icon {
+    color: #fff;
+}
+
+.card-btn .text {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Diferenciação sutil para a área de consultas */
+.alt-btn {
+    background-color: #0a0a0a;
+}
+
+/* Estilos para o cabeçalho menor nas páginas internas */
+.header-small {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.back-btn:hover {
+    color: #fff;
+}
+
+/* Painel de Formulário */
+.form-panel {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #111;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #222;
+}
+
+.panel-desc {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    color: #aaa;
+    font-weight: 600;
+}
+
+.input-group input {
+    background-color: #0a0a0a;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #666;
+}
+
+/* Botões do Formulário */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #222;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-salvar {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+.btn-salvar:hover {
+    background-color: #fff;
+    transform: translateY(-1px);
+}
+
+.currency-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 1rem;
+    color: #888;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.currency-wrapper input {
+    width: 100%;
+    padding-left: 2.8rem; /* Dá espaço para o R$ não sobrepor os números */
+}
+
+.input-group select {
+    background-color: #0a0a0a;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+    /* Remove a seta padrão do navegador */
+    appearance: none; 
+    -webkit-appearance: none;
+    /* Adiciona uma seta minimalista customizada */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    cursor: pointer;
+}
+
+.input-group select:focus {
+    outline: none;
+    border-color: #666;
+}
+
+.input-group select option {
+    background-color: #111;
+    color: #fff;
+}
+
+/* Container para alinhar painéis lado a lado */
+.dashboard-split {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start; /* Evita que um painel estique a altura do outro desnecessariamente */
+    flex-wrap: wrap; /* Joga um painel para baixo do outro em telas de celular */
+    width: 100%;
+}
+
+/* Ajusta os painéis dentro desse layout dividido */
+.dashboard-split .form-panel {
+    flex: 1; /* Faz com que ambos dividam o espaço 50/50 */
+    min-width: 350px; /* Garante que o formulário não fique esmagado em telas menores */
+    margin: 0; /* Remove a centralização automática (margin: 0 auto) usada anteriormente */
+}
+
+/* Dashboard e listagens */
+.stat-card {
+    background-color: #151515;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.data-table th {
+    text-align: left;
+    color: #888;
+    font-weight: 400;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid #222;
+}
+
+.data-table td {
+    padding: 0.8rem;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+/* Mensagens dos formulários */
+.alerta {
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    border: 1px solid;
+}
+
+.alerta-ok {
+    background-color: #0f1f14;
+    border-color: #1f5c33;
+    color: #7fd69a;
+}
+
+.alerta-erro {
+    background-color: #241212;
+    border-color: #6b2323;
+    color: #f08a8a;
+}
