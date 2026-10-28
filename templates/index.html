@@ -39,25 +39,167 @@
             <section class="panel">
                 <h2 class="panel-title">Consultas</h2>
                 <div class="grid">
-                    <a href="/clientes" class="card-btn alt-btn" style="text-decoration: none;">
+                    <a href="/listar-clientes" class="card-btn alt-btn" style="text-decoration: none;"">
                         <span class="icon">➜</span>
                         <span class="text">Ver Clientes</span>
                     </a>
-                    <a href="/contas" class="card-btn alt-btn" style="text-decoration: none;">
+                    <a href="/listar-contas" class="card-btn alt-btn" style="text-decoration: none;">
                         <span class="icon">➜</span>
                         <span class="text">Ver Contas</span>
                     </a>
-                    <a href="/agencias" class="card-btn alt-btn" style="text-decoration: none;">
+                    <a href="/listar-agencia" class="card-btn alt-btn" style="text-decoration: none;">
                         <span class="icon">➜</span>
                         <span class="text">Ver Agências</span>
                     </a>
                     <a href="/dashboard" class="card-btn alt-btn" style="text-decoration: none;">
                         <span class="icon">➜</span>
-                        <span class="text">Dashboard Completo</span>
+                        <span class="text">Ver Dashboard</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Seção de operações financeiras ebaa -->
+            <section class="panel">
+                <h2 class="panel-title">Operações Financeiras</h2>
+                <div class="grid">
+                    <a href="/?modal=transferencia" class="card-btn" style="text-decoration: none;">
+                        <span class="icon">⇄</span>
+                        <span class="text">Transferência</span>
+                    </a>
+                    <a href="/?modal=deposito" class="card-btn" style="text-decoration: none;">
+                        <span class="icon">↓</span>
+                        <span class="text">Depósito</span>
+                    </a>
+                    <a href="/?modal=saque" class="card-btn" style="text-decoration: none;">
+                        <span class="icon">↑</span>
+                        <span class="text">Saque</span>
                     </a>
                 </div>
             </section>
         </main>
     </div>
+
+<div class="modal-overlay {% if modal_aberto == 'transferencia' %}ativo{% endif %}">
+    <section class="panel form-panel modal-content">
+        <h2 class="panel-title">Nova Transferência</h2>
+
+        <!-- Bloco Python/Jinja para mostrar mensagens (Flash) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+                <div class="alerta {{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form action="/transferencia" method="POST" class="form-container">
+            <div class="input-group">
+                <label for="id-pagador">Pagador</label>
+                <div class="currency-wrapper">
+                    <span class="currency-symbol">ID:</span>
+                    <input type="number" id="id-pagador" name="id-pagador" placeholder="Digite o Id" step="1" min="0" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="id-receptor">Receptor</label>
+                <div class="currency-wrapper">
+                    <span class="currency-symbol">ID:</span>
+                    <input type="number" id="id-receptor" name="id-receptor" placeholder="Digite o Id" step="1" min="0" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="valor">Valor</label>
+                <div class="currency-wrapper">
+                    <span class="currency-symbol">R$</span>
+                    <input type="number" id="valor" name="valor" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <a href="/" class="btn btn-cancelar" style="text-decoration: none; display: inline-block;">Cancelar</a>
+                <button type="submit" class="btn btn-salvar">Transferir</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+<div class="modal-overlay {% if modal_aberto == 'saque' %}ativo{% endif %}">
+    <section class="panel form-panel modal-content">
+        <h2 class="panel-title">Novo Saque</h2>
+
+        <!-- Bloco Python/Jinja para mostrar mensagens (Flash) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+                <div class="alerta {{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form action="/saque" method="POST" class="form-container">
+            <div class="input-group">
+                <label for="id-conta">Conta</label>
+                <div class="currency-wrapper">
+                    <span class="currency-symbol">ID:</span>
+                    <input type="number" id="id-conta" name="id-conta" placeholder="Digite o Id" step="1" min="0" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="valor">Valor</label>
+                <div class="currency-wrapper">
+                    <span class="currency-symbol">R$</span>
+                    <input type="number" id="valor" name="valor" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <a href="/" class="btn btn-cancelar" style="text-decoration: none; display: inline-block;">Cancelar</a>
+                <button type="submit" class="btn btn-salvar">Sacar</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+<div class="modal-overlay {% if modal_aberto == 'deposito' %}ativo{% endif %}">
+    <section class="panel form-panel modal-content">
+        <h2 class="panel-title">Novo Depósito</h2>
+
+        <!-- Bloco Python/Jinja para mostrar mensagens (Flash) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+                <div class="alerta {{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form action="/deposito" method="POST" class="form-container">
+            <div class="input-group">
+                <label for="id-conta">Conta</label>
+                <div class="currency-wrapper">
+                    <span class="currency-symbol">ID:</span>
+                    <input type="number" id="id-conta" name="id-conta" placeholder="Digite o Id" step="1" min="0" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="valor">Valor</label>
+                <div class="currency-wrapper">
+                    <span class="currency-symbol">R$</span>
+                    <input type="number" id="valor" name="valor" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <a href="/" class="btn btn-cancelar" style="text-decoration: none; display: inline-block;">Cancelar</a>
+                <button type="submit" class="btn btn-salvar">Depositar</button>
+            </div>
+        </form>
+    </section>
+</div>
+
 </body>
 </html>

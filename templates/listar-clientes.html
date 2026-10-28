@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header header-small">
+            <h1 class="logo">CDMP <span>Bank</span></h1>
+            <a href="/" class="back-btn" style="text-decoration: none;">← Voltar ao Menu</a>
+        </header>
+        <main class="dashboard">
+            <section class="panel form-panel">
+                <h2 class="panel-title">Lista de Clientes</h2>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alerta {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>E-mail</th>
+                                <th>Contas Associadas</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cliente in clientes %}
+                            <tr>
+                                <td>{{ cliente.id }}</td>
+                                <td>{{ cliente.nome }}</td>
+                                <td>{{ cliente.cpf }}</td>
+                                <td>{{ cliente.email }}</td>
+                                <td>{{ cliente.contasAssociadas}}</td>
+                                <td>
+                                    <form action="/excluir-cliente/{{ cliente.id }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir o cliente {{ cliente.nome }}?');">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" style="text-align: center;">Nenhum cliente encontrado.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

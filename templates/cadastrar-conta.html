@@ -14,24 +14,28 @@
             <a href="/" class="back-btn" style="text-decoration: none;">← Voltar ao Menu</a>
         </header>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+                <div class="alerta {{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <main class="dashboard dashboard-split">
             <section class="panel form-panel">
                 <h2 class="panel-title">Nova Conta</h2>
                 <p class="panel-desc">Preencha os dados abaixo para registrar uma nova conta no sistema.</p>
 
-                {% if mensagem %}
-                <div class="alerta {{ 'alerta-ok' if sucesso else 'alerta-erro' }}">{{ mensagem }}</div>
-                {% endif %}
-
                 <form action="cadastrar-conta" method="POST" class="form-container">
                     <div class="input-group">
                         <label for="id-cliente">Id do Cliente</label>
-                        <input type="text" id="id-cliente" name="id-cliente" placeholder="Digite o Id do cliente associado" required>
+                        <input type="number" id="id-cliente" name="id-cliente" min="0" step="1" placeholder="Digite o Id do cliente associado" required>
                     </div>
 
                     <div class="input-group">
                         <label for="id-agencia">Id da Agência</label>
-                        <input type="text" id="id-agencia" name="id-agencia" placeholder="Digite o Id da agência associada" required>
+                        <input type="number" id="id-agencia" name="id-agencia" min="0" step="1" placeholder="Digite o Id da agência associada" required>
                     </div>
 
                     <div class="input-group">
@@ -43,12 +47,12 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="tipo_conta">Tipo de Conta</label>
-                        <select id="tipo_conta" name="tipo_conta" required>
+                        <label for="tipo">Tipo de Conta</label>
+                        <select id="tipo" name="tipo" required>
                             <option value="" disabled selected>Selecione uma opção...</option>
-                            <option value="corrente">Conta Corrente</option>
-                            <option value="poupanca">Conta Poupança</option>
-                            <option value="salario">Conta Salário</option>
+                            <option value="Corrente">Corrente</option>
+                            <option value="Poupança">Poupança</option>
+                            <option value="Salário">Salário</option>
                         </select>
                     </div>
 
@@ -70,13 +74,13 @@
                 
                 <form action="/associar-cliente-conta" method="POST" class="form-container">
                     <div class="input-group">
-                        <label for="id_cliente">ID do Cliente</label>
-                        <input type="text" id="id_cliente" name="id_cliente" placeholder="Digite o Id do cliente">
+                        <label for="id-cliente">ID do Cliente</label>
+                        <input type="number" id="id-cliente" name="id-cliente" min="0" step="1" placeholder="Digite o Id do cliente">
                     </div>
 
                     <div class="input-group">
-                        <label for="id_conta">ID da Conta</label>
-                        <input type="text" id="id_conta" name="id_conta" placeholder="Digite o Id da conta"required>
+                        <label for="id-conta">ID da Conta</label>
+                        <input type="number" id="id-conta" name="id-conta" min="0" step="1" placeholder="Digite o Id da conta"required>
                     </div>
 
                     <div class="form-actions">

@@ -17,11 +17,14 @@
         <main class="dashboard">
             <section class="panel form-panel">
                 <h2 class="panel-title">Novo Cliente</h2>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alerta {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 <p class="panel-desc">Preencha os dados abaixo para registrar um novo cliente no sistema.</p>
-
-                {% if mensagem %}
-                <div class="alerta {{ 'alerta-ok' if sucesso else 'alerta-erro' }}">{{ mensagem }}</div>
-                {% endif %}
 
                 <form action="cadastrar-cliente" method="POST" class="form-container">
                     <div class="input-group">

@@ -1,2 +1,2 @@
-import cliente
-print(cliente.listar_clientes())
+dicionario = {}
+print(list(dicionario)[-1])

@@ -11,8 +11,9 @@ body {
     font-family: 'Inter', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; 
     min-height: 100vh;
+    padding-top: 1rem; /* Cria um respiro visual entre a borda do navegador e a logo */
 }
 
 .app-container {
@@ -128,7 +129,8 @@ body {
 
 /* Painel de Formulário */
 .form-panel {
-    max-width: 600px;
+    width:100%;
+    max-width: 1200px;
     margin: 0 auto;
     background-color: #111;
     padding: 2rem;
@@ -270,65 +272,232 @@ body {
     margin: 0; /* Remove a centralização automática (margin: 0 auto) usada anteriormente */
 }
 
-/* Dashboard e listagens */
-.stat-card {
-    background-color: #151515;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.stat-label {
-    font-size: 0.8rem;
-    color: #888;
-    text-transform: uppercase;
-}
-
-.stat-value {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: #fff;
+.table-container {
+    width: 100%;
+    overflow-x: auto;
 }
 
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.data-table th, .data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #222;
+    color: #e0e0e0;
 }
 
 .data-table th {
-    text-align: left;
-    color: #888;
-    font-weight: 400;
-    padding: 0.6rem 0.8rem;
-    border-bottom: 1px solid #222;
+    color: #aaa;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background-color: #0a0a0a;
 }
 
-.data-table td {
-    padding: 0.8rem;
-    border-bottom: 1px solid #1a1a1a;
+.data-table tbody tr:hover {
+    background-color: #1a1a1a;
 }
 
-/* Mensagens dos formulários */
-.alerta {
-    padding: 0.8rem 1rem;
+.btn-excluir {
+    background-color: transparent;
+    color: #ff4444;
+    border: 1px solid #ff4444;
+    padding: 0.4rem 0.8rem;
     border-radius: 4px;
-    margin-bottom: 1.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+}
+
+.btn-excluir:hover {
+    background-color: #3b1111;
+    color: #ff8b8b;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25); 
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.modal-overlay.ativo {
+    display: flex;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 500px;
+    margin: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.alerta { 
+    padding: 1rem; 
+    margin-bottom: 1.5rem; 
+    border-radius: 4px; 
+    font-weight: 600; 
+}
+.alerta.erro { 
+    background-color: #3b1111; 
+    color: #ff8b8b; 
+    border: 1px 
+    solid #ff4444; 
+}
+
+.alerta.sucesso { 
+    background-color: #113b1b; 
+    color: #8bff9d; 
+    border: 1px 
+    solid #44ff66; 
+}
+
+.btn-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #0a0a0a;
+    color: #888;
+    border: 1px solid #333;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
     font-size: 0.9rem;
-    border: 1px solid;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
-.alerta-ok {
-    background-color: #0f1f14;
-    border-color: #1f5c33;
-    color: #7fd69a;
+.toggle-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: #444;
+    border-radius: 50%;
+    transition: all 0.2s ease;
 }
 
-.alerta-erro {
-    background-color: #241212;
-    border-color: #6b2323;
-    color: #f08a8a;
+.btn-toggle.ativo {
+    background-color: #111;
+    color: #fff;
+    border-color: #555;
+}
+
+.btn-toggle.ativo .toggle-indicator {
+    background-color: #8bff9d; /* Ponto verde neon para indicar ativação */
+    box-shadow: 0 0 8px rgba(139, 255, 157, 0.4);
+}
+
+/* Grade dos 5 cartões de dados */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background-color: #0a0a0a;
+    border: 1px solid #222;
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.stat-label {
+    color: #888;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    color: #e0e0e0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.stat-value.highlight {
+    color: #8bff9d; /* Destaca o saldo total em verde */
+}
+
+/* Área do Gráfico de Pizza */
+.chart-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #0a0a0a;
+    border: 1px solid #222;
+    padding: 2rem;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    gap: 2rem;
+    grid-column: span 2;
+}
+
+.chart-legend {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.chart-legend li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #aaa;
+}
+
+.chart-info h3 {
+    margin-top: 0; 
+    margin-bottom: 1.5rem; /* Dá um espaço maior entre o título e as bolinhas da legenda */
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+/* Bolinhas da legenda */
+.dot-corrente { background-color: #8bff9d; }
+.dot-poupanca { background-color: #ac3737; }
+.dot-salario { background-color: #c3ea35; border: 1px solid #333; } 
+
+/* O gráfico com três fatias */
+.pie-chart {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    background: conic-gradient(
+        #8bff9d 0% var(--perc-1), 
+        #ac3737 var(--perc-1) var(--perc-2), 
+        #c3ea35 var(--perc-2) 100%
+    );
+    mask: radial-gradient(transparent 50%, black 50%);
+    -webkit-mask: radial-gradient(transparent 50%, black 50%);
+}
+
+@media (max-width: 600px) {
+    .chart-section {
+        grid-column: 1 / -1;
+    }
 }

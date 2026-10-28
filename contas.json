@@ -1,0 +1,36 @@
+{
+  "0": {
+    "tipo": "Corrente",
+    "clientesAssociados": [
+      0,
+      1
+    ],
+    "agencia": "0",
+    "saldo": 1000.0
+  },
+  "1": {
+    "tipo": "Corrente",
+    "clientesAssociados": [
+      0,
+      1
+    ],
+    "agencia": "0",
+    "saldo": 10.0
+  },
+  "2": {
+    "tipo": "Poupança",
+    "clientesAssociados": [
+      3
+    ],
+    "agencia": "1",
+    "saldo": 400000.0
+  },
+  "3": {
+    "tipo": "Salário",
+    "clientesAssociados": [
+      2
+    ],
+    "agencia": "1",
+    "saldo": 100.0
+  }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Contas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header header-small">
+            <h1 class="logo">CDMP <span>Bank</span></h1>
+            <a href="/" class="back-btn" style="text-decoration: none;">← Voltar</a>
+        </header>
+
+        <main class="dashboard">
+            <section class="panel form-panel" style="max-width: 100%;">
+                <h2 class="panel-title">Lista de Contas</h2>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="alerta {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
+                <div class="table-actions" style="margin-bottom: 1.5rem; display: flex; justify-content: flex-end;">
+                    <a href="{% if filtro == 'positivo' %}/listar-contas{% else %}/listar-contas?filtro=positivo{% endif %}" 
+                    class="btn-toggle {% if filtro == 'positivo' %}ativo{% endif %}">
+                        <span class="toggle-indicator"></span>
+                        Somente Saldo Positivo
+                    </a>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID da Conta</th>
+                                <th>Tipo</th>
+                                <th>Clientes Associados</th>
+                                <th>Saldo</th>
+                                <th>Agência Associada</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for conta in contas %}
+                            <tr>
+                                <td>{{ conta.id }}</td>
+                                <td>{{ conta.tipo }}</td>
+                                <td>{{ conta.clientesAssociados}}</td>
+                                <td>R$ {{ "%.2f"|format(conta.saldo) }}</td>
+                                <td>{{ conta.agencia  }}</td>
+                                <td>
+                                    <form action="/excluir-conta/{{ conta.id }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn-excluir" onclick="return confirm('Excluir definitivamente a conta {{ conta.id }}?');">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Nenhuma conta encontrada no sistema.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

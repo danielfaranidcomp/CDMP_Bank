@@ -1,0 +1,16 @@
+{
+  "0": {
+    "endereco": "Av Barão de Maruim, 500",
+    "contasAssociadas": [
+      0,
+      1
+    ]
+  },
+  "1": {
+    "endereco": "Av. Dr Sílvio Cabral de Santana, n500",
+    "contasAssociadas": [
+      2,
+      3
+    ]
+  }
+}
