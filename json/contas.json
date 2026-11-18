@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "tipo": "Corrente",
+    "saldo": 230101.0,
+    "cliente": 0
+  },
+  {
+    "id": 1,
+    "tipo": "Corrente",
+    "saldo": 29999.0,
+    "cliente": 1
+  },
+  {
+    "id": 2,
+    "tipo": "Poupança",
+    "saldo": 5.0,
+    "cliente": 2
+  }
+]

@@ -42,7 +42,7 @@
                                 <td>{{ cliente.nome }}</td>
                                 <td>{{ cliente.cpf }}</td>
                                 <td>{{ cliente.email }}</td>
-                                <td>{{ cliente.contasAssociadas}}</td>
+                                <td>{{ cliente.lista_contas }}</td>
                                 <td>
                                     <form action="/excluir-cliente/{{ cliente.id }}" method="POST" style="display:inline;">
                                         <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir o cliente {{ cliente.nome }}?');">

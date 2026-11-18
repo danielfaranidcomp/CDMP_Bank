@@ -39,9 +39,9 @@
                             <tr>
                                 <th>ID da Conta</th>
                                 <th>Tipo</th>
-                                <th>Clientes Associados</th>
+                                <th>Cliente Associado</th>
                                 <th>Saldo</th>
-                                <th>Agência Associada</th>
+                                <th>Agência</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -50,9 +50,9 @@
                             <tr>
                                 <td>{{ conta.id }}</td>
                                 <td>{{ conta.tipo }}</td>
-                                <td>{{ conta.clientesAssociados}}</td>
+                                <td>{{ conta.cliente }}</td>
                                 <td>R$ {{ "%.2f"|format(conta.saldo) }}</td>
-                                <td>{{ conta.agencia  }}</td>
+                                <td>0001</td>
                                 <td>
                                     <form action="/excluir-conta/{{ conta.id }}" method="POST" style="display:inline;">
                                         <button type="submit" class="btn-excluir" onclick="return confirm('Excluir definitivamente a conta {{ conta.id }}?');">

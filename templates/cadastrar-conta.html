@@ -22,7 +22,7 @@
             {% endif %}
         {% endwith %}
 
-        <main class="dashboard dashboard-split">
+        <main class="dashboard">
             <section class="panel form-panel">
                 <h2 class="panel-title">Nova Conta</h2>
                 <p class="panel-desc">Preencha os dados abaixo para registrar uma nova conta no sistema.</p>
@@ -33,10 +33,10 @@
                         <input type="number" id="id-cliente" name="id-cliente" min="0" step="1" placeholder="Digite o Id do cliente associado" required>
                     </div>
 
-                    <div class="input-group">
+                    <!-- <div class="input-group">
                         <label for="id-agencia">Id da Agência</label>
                         <input type="number" id="id-agencia" name="id-agencia" min="0" step="1" placeholder="Digite o Id da agência associada" required>
-                    </div>
+                    </div> -->
 
                     <div class="input-group">
                         <label for="valor">Saldo</label>
@@ -52,7 +52,6 @@
                             <option value="" disabled selected>Selecione uma opção...</option>
                             <option value="Corrente">Corrente</option>
                             <option value="Poupança">Poupança</option>
-                            <option value="Salário">Salário</option>
                         </select>
                     </div>
 
@@ -67,7 +66,7 @@
                 </form>
             </section>
 
-            <!-- PAINEL 2: Associar Cliente à Conta -->
+            <!-- PAINEL 2: Associar Cliente à Conta
             <section class="panel form-panel">
                 <h2 class="panel-title">Associar Cliente à Conta</h2>
                 <p class="panel-desc">Vincule um cliente existente a uma conta.</p>
@@ -87,7 +86,7 @@
                         <button type="submit" class="btn btn-salvar">Associar</button>
                     </div>
                 </form>
-            </section>
+            </section> -->
         </main>
     </div>
 </body>

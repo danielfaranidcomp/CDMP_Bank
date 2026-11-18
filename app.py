@@ -191,14 +191,6 @@ def excluirConta(id):
         return redirect('/?modal=deposito')
 
 
-@app.route('/listar-agencia')
-def listarAgencias():
-    # pensando no q fazer ainda
-    return render_template('listar-agencias.html', 
-                           #agencias=listaAgencias
-                           )
-
-
 # dashboard agora!
 @app.route('/dashboard')
 def dashboard():

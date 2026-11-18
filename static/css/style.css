@@ -489,8 +489,7 @@ body {
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
     background: conic-gradient(
         #8bff9d 0% var(--perc-1), 
-        #ac3737 var(--perc-1) var(--perc-2), 
-        #c3ea35 var(--perc-2) 100%
+        #ac3737 var(--perc-2)
     );
     mask: radial-gradient(transparent 50%, black 50%);
     -webkit-mask: radial-gradient(transparent 50%, black 50%);

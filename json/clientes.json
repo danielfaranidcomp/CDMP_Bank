@@ -1,36 +1,30 @@
-{
-  "0": {
+[
+  {
+    "id": 0,
     "nome": "Daniel Farani De Farias",
     "cpf": "058.564.305-90",
     "email": "faranidefarias@gmail.com",
-    "contasAssociadas": [
-      0,
-      1
-    ]
+    "lista_contas": []
   },
-  "1": {
+  {
+    "id": 1,
     "nome": "Fulano Ferreira",
     "cpf": "068.097.320-63",
     "email": "fulano@dcomp.ufs.br",
-    "contasAssociadas": [
-      1,
-      0
-    ]
+    "lista_contas": []
   },
-  "2": {
+  {
+    "id": 2,
     "nome": "Ciclano Campos",
     "cpf": "901.068.830-54",
-    "email": "cicanlo@academico.ufs.br",
-    "contasAssociadas": [
-      3
-    ]
+    "email": "ciclano@academico.ufs.br",
+    "lista_contas": []
   },
-  "3": {
+  {
+    "id": 3,
     "nome": "Deltrano Dantas",
     "cpf": "864.378.220-31",
     "email": "deltrano@outlook.com",
-    "contasAssociadas": [
-      2
-    ]
+    "lista_contas": []
   }
-}
+]
